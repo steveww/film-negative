@@ -1,5 +1,5 @@
 # Film Negative
-GIMP script to help processing colour film negatives
+GIMP script to help processing colour or B&W film negatives
 
 This script pulls together a few steps to process a scan of a colour film negative,
 correcting for the different Cyan Magenta Yellow sensitivities of the film stock.
@@ -17,6 +17,11 @@ already running.
 ## Usage
 
 The script will appear as the menu option Colours -> Colour Negative in the GIMP main menu.
+When activated it gives you two options:
+
+**Auto Exposure** Will do a best guess exposure tweak on the final image.
+
+**Balck & White** Will convert the image to black and white (desaturate) before performing any other modifications. This is a must for black and white scans and optional for colour scans you want to convert to black and white.
 
 Load a colour negative scan in TIFF format; 48 bit is best.
 
