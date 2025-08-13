@@ -1,7 +1,14 @@
-(define (script-fu-film-negative inImage inLayer)
+(define (script-fu-film-negative inImage inLayer autoExpose isBW)
   (gimp-selection-all inImage)
+  (if (= isBW TRUE)
+    (gimp-drawable-desaturate inLayer DESATURATE-LUMINANCE)
+  )
   (gimp-drawable-levels-stretch inLayer)
   (gimp-drawable-invert inLayer FALSE)
+  ; apply best guess expose adjustment
+  (if (= autoExpose TRUE)
+      (gimp-drawable-levels inLayer HISTOGRAM-VALUE 0.0 0.5 FALSE 1.0 0.0 1.0 FALSE)
+  )
   ; show the results
   (gimp-displays-flush inImage)
 
@@ -36,6 +43,8 @@
   "*"
   SF-IMAGE "The Image" 0
   SF-DRAWABLE "The Layer" 0
+  SF-TOGGLE "Auto Exposure" TRUE
+  SF-TOGGLE "Black & White" FALSE
 )
 
 (script-fu-menu-register
