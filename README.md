@@ -14,6 +14,8 @@ There will be two directories listed in there. One for the system and one for th
 Copy the `film-negative.scm` file into either of these directories. Restart GIMP if it's
 already running.
 
+Alternatively, there is an install script for Mac and Linux systems `deploy.sh`.
+
 ## Usage
 
 The script will appear as the menu option Colours -> Colour Negative in the GIMP main menu.
