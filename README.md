@@ -21,7 +21,7 @@ Alternatively, there is an install script for Mac and Linux systems `deploy.sh`.
 The script will appear as the menu option Colours -> Colour Negative in the GIMP main menu.
 When activated it gives you two options:
 
-**Auto Exposure** Will do a best guess exposure tweak on the final image.
+**Auto Exposure** Will adjust the exposure. 100 = no adjustment. 50 = approx 2 stops brighter.
 
 **Balck & White** Will convert the image to black and white (desaturate) before performing any other modifications. This is a must for black and white scans and optional for colour scans you want to convert to black and white.
 
