@@ -4,8 +4,8 @@
   (if (= isBW TRUE)
     (gimp-drawable-desaturate inLayer DESATURATE-LUMINANCE)
   )
-  (gimp-drawable-levels-stretch inLayer)
   (gimp-drawable-invert inLayer FALSE)
+  (gimp-drawable-levels-stretch inLayer)
   ; apply expose adjustment
   ;(gimp-message (number->string autoExpose))
   (if (not (= autoExpose 100))
