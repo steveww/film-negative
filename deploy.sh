@@ -15,4 +15,4 @@ case $(uname) in
 esac
 
 echo "Copying script to $DESTINATION"
-copy film-negative.scm "$DESTINATION"
+cp film-negative.scm "$DESTINATION"

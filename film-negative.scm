@@ -46,7 +46,7 @@
   "*"
   SF-IMAGE "The Image" 0
   SF-DRAWABLE "The Layer" 0
-  SF-ADJUSTMENT "Auto Exposure" '(100 10 100 5 10 0 SF-SLIDER)
+  SF-ADJUSTMENT "Exposure Adjustment" '(100 10 100 5 10 0 SF-SLIDER)
   SF-TOGGLE "Black & White" FALSE
 )
 
