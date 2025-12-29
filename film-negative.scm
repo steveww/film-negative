@@ -1,10 +1,12 @@
-(define (script-fu-film-negative inImage inLayer autoExpose isBW)
+(define (script-fu-film-negative inImage inLayer autoExpose isBW isSlide)
   (gimp-message-set-handler CONSOLE)
   (gimp-selection-all inImage)
   (if (= isBW TRUE)
     (gimp-drawable-desaturate inLayer DESATURATE-LUMINANCE)
   )
-  (gimp-drawable-invert inLayer FALSE)
+  (if (= isSlide FALSE)
+      (gimp-drawable-invert inLayer FALSE)
+  )
   (gimp-drawable-levels-stretch inLayer)
   ; apply expose adjustment
   ;(gimp-message (number->string autoExpose))
@@ -38,7 +40,7 @@
 
 (script-fu-register
   "script-fu-film-negative"
-  "Colour Negative"
+  "Film Processor"
   "Automatically adjusts colour sensitivity and invert"
   "SteveWW"
   "(c) 2025"
@@ -48,6 +50,7 @@
   SF-DRAWABLE "The Layer" 0
   SF-ADJUSTMENT "Exposure Adjustment" '(100 10 100 5 10 0 SF-SLIDER)
   SF-TOGGLE "Black & White" FALSE
+  SF-TOGGLE "Slide" FALSE
 )
 
 (script-fu-menu-register

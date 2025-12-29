@@ -18,15 +18,17 @@ Alternatively, there is an install script for Mac and Linux systems `deploy.sh`.
 
 ## Usage
 
-The script will appear as the menu option Colours -> Colour Negative in the GIMP main menu.
-When activated it gives you two options:
+The script will appear as the menu option Colours -> Film Processor in the GIMP main menu.
+When activated it gives you three options:
 
 **Auto Exposure** Will adjust the exposure. 100 = no adjustment. 50 = approx 2 stops brighter.
 
-**Balck & White** Will convert the image to black and white (desaturate) before performing any other modifications. This is a must for black and white scans and optional for colour scans you want to convert to black and white.
+**Balck & White** Will convert the image to black and white (desaturate) before performing any other modifications. This is a must for black and white scans and optional for colour scans if you want to convert to black and white.
+
+**Slide** For slide film which is colour positive, this will skip the invert step.
 
 Load a colour negative scan in TIFF format; 48 bit is best.
 
-It performs `Auto Input Levels` for the colour correction then `Invert` to go from negative
-to positive. Finally the JPEG export dialog will be displayed. Save at 95% quality.
-Use `Save Defaults` to remember this setting.
+It optionally performs `Invert` for negatives then `Auto Input Levels` for colour correction. Finally it chnages the file
+extension to `jpg` and exports the file as a JPEG. The colour correction may not be 100% but it does provide a good
+starting point for final tweaks.
