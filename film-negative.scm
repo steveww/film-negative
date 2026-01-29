@@ -55,5 +55,5 @@
 
 (script-fu-menu-register
   "script-fu-film-negative"
-  "<Image>/Colors/Modify"
+  "<Image>/Colors"
 )
