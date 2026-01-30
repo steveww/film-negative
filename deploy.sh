@@ -1,5 +1,8 @@
 #!/bin/sh
 
+set -e
+#set -x
+
 clear
 
 read -p "Gimp Version <2/3>? " ANS
@@ -7,13 +10,11 @@ read -p "Gimp Version <2/3>? " ANS
 case $ANS in
     2)
         VERSION="2.10"
-        SCRIPT="film-negative.scm"
         DIR="scripts"
         ;;
     3)
         VERSION="3.0"
-        SCRIPT="film-negative.py"
-        DIR="plug-ins/film-negative"
+        DIR="plug-ins"
         ;;
     *)
         echo "Wrong version"
@@ -36,17 +37,34 @@ case $(uname) in
         ;;
 esac
 
-if [ "$VERSION" = "3.0" -a ! -d "$DESTINATION" ]
+if [ "$VERSION" = "2.10" ]
 then
-    echo "Creating $DESTINATION"
-    mkdir "$DESTINATION"
+    echo "$DESTINATION"
+    read -p "Copy <y/n>? " ANS
+    if [ "$ANS" = "y" ]
+    then
+        cp *.scm "$DESTINATION"
+    fi
 fi
 
-
-read -p "Copy script to $DESTINATION <y/n>? " ANS
-if [ "$ANS" = "y" ]
+if [ "$VERSION" = "3.0" ]
 then
-    cp "$SCRIPT" "$DESTINATION"
-    echo "Done"
+    echo "$DESTINATION"
+    read -p "Copy <y/n>? " ANS
+    if [ "$ANS" = "y" ]
+    then
+        for SCRIPT in *.py
+        do
+            DIR="$(basename $SCRIPT .py)"
+            if [ ! -d "$DESTINATION/$DIR" ]
+            then
+                echo "Creating $DESTINATION/$DIR"
+                mkdir "$DESTINATION/$DIR"
+            fi
+
+            cp $SCRIPT $DESTINATION/$DIR
+        done
+    fi
+
 fi
 

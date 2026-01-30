@@ -4,7 +4,7 @@
 # Film Negative processing plig in
 
 import sys
-import os
+#import os
 # GIMP stuff
 import gi
 
@@ -75,12 +75,12 @@ class FilmNegative (Gimp.PlugIn):
                 dialog.destroy()
                 return procedure.new_return_values(Gimp.PDBStatusType.CANCEL, GLib.Error())
 
-        Gimp.message('Starting')
+        #Gimp.message('Starting')
         adjExposure = config.get_property('adj-exposure')
         isBlackWhite = config.get_property('is-black-white')
         isSlide = config.get_property('is-slide')
 
-        Gimp.message('BW {}'.format(isBlackWhite))
+        #Gimp.message('BW {}'.format(isBlackWhite))
         if isBlackWhite:
             ok = drawable.desaturate(Gimp.DesaturateMode.LUMINANCE)
             if not ok:
@@ -103,35 +103,13 @@ class FilmNegative (Gimp.PlugIn):
             return procedure.new_return_values(Gimp.PDBStatusType.GIMP_PDB_EXECUTION_ERROR, error)
 
         # Exposure Adjustment
-        Gimp.message('Adj {}'.format(adjExposure))
+        #Gimp.message('Adj {}'.format(adjExposure))
         if adjExposure != 100:
             ok = drawable.levels(Gimp.HistogramChannel.VALUE, 0.0, adjExposure / 100, False, 1.0, 0.0, 1.0, False)
             if not ok:
                 msg = _('Exposure failed')
                 error = GLib.Error.new_literal(Gimp.PlugIn.error_quark(), msg, 0)
                 return procedure.new_return_values(Gimp.PDBStatusType.GIMP_PDB_EXECUTION_ERROR, error)
-
-        # File stuff
-        filename = image.get_file().get_path()
-        path = os.path.splitext(filename)[0]
-        jpgFile = Gio.File.new_for_path(path + '.jpg')
-        # call jpgFile.unref() before you go
-
-        pdb = Gimp.get_pdb()
-        pdb_proc = pdb.lookup_procedure('file-jpeg-export')
-        pdb_config = pdb_proc.create_config()
-        pdb_config.set_property('run-mode', Gimp.RunMode.INTERACTIVE)
-        pdb_config.set_property('image', image)
-        pdb_config.set_property('file', jpgFile)
-        pdb_config.set_property('quality', 0.95)
-        pdb_config.set_property('include-exif', True)
-        pdb_config.set_property('include-color-profile', True)
-        ok = pdb_proc.run(pdb_config)
-        if ok.index(0) != Gimp.PDBStatusType.SUCCESS:
-            msg = _('Export failed')
-            error = GLib.Error.new_literal(Gimp.PlugIn.error_quark(), msg, 0)
-            return procedure.new_return_values(Gimp.PDBStatusType.GIMP_PDB_EXECUTION_ERROR, error)
-
 
         return procedure.new_return_values(Gimp.PDBStatusType.SUCCESS, GLib.Error())
 
