@@ -88,6 +88,7 @@ class DualSave (Gimp.PlugIn):
             return procedure.new_return_values(Gimp.PDBStatusType.GIMP_PDB_EXECUTION_ERROR, error)
 
         # all done so mark image as clean
+        Gimp.message('Finished')
         image.clean_all()
 
         return procedure.new_return_values(Gimp.PDBStatusType.SUCCESS, GLib.Error())
