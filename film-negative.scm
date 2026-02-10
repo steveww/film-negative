@@ -1,4 +1,4 @@
-(define (script-fu-film-processor inImage inLayer highlights shadows isBW isSlide)
+(define (script-fu-film-processor inImage inLayer gamma isBW isSlide)
   ;(gimp-message-set-handler CONSOLE)
   ;(gimp-message (string-append "highlights " (number->string highlights)))
 
@@ -10,14 +10,12 @@
   )
   (gimp-drawable-levels-stretch inLayer)
 
-  ; optionally apply levels adjustment
-  (if (or (not (= highlights 100)) (not (= shadows 0)))
-      (let* (
-             (h (/ highlights 100))
-             (s (/ shadows 100))
-             )
+  ; optionally apply exposure adjustment
+  (if (not (= gamma 100))
+      (let*  (g (/ gamma 100))
+            (gimp-message (string-append "gamma " (number->string g)))
             ; drawable channel low-input high-input clamp-input gamma low-output high-output clamp-output
-            (gimp-drawable-levels inLayer HISTOGRAM-VALUE s 1.0 FALSE 1.0 0.0 h FALSE)
+            (gimp-drawable-levels inLayer HISTOGRAM-VALUE 0.0 1.0 FALSE g 0.0 1.0 FALSE)
       )
   )
   ; show the results
@@ -34,8 +32,14 @@
   "*"
   SF-IMAGE "The Image" 0
   SF-DRAWABLE "The Layer" 0
-  SF-ADJUSTMENT "Highlights Adjustment" '(100 10 100 5 10 0 SF-SLIDER)
-  SF-ADJUSTMENT "Shadows Adjustment" '(0 0 90 5 10 0 SF-SLIDER)
+  SF-ADJUSTMENT "Exposure Adjustment"
+      (list 100 ;value
+            10  ;lower
+            1000;upper
+            5   ;step inc
+            10  ;page inc
+            0   ;digits
+            SF-SLIDER)
   SF-TOGGLE "Black & White" FALSE
   SF-TOGGLE "Slide" FALSE
 )
