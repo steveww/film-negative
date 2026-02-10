@@ -40,10 +40,14 @@ class FilmNegative (Gimp.PlugIn):
         procedure.set_attribution('SteveWW', 'SteveWW', '2026')
 
         # Options
-        procedure.add_int_argument('adj-exposure',
-                                   'Adjust Exposure',
-                                   'Exposure compension applied',
+        procedure.add_int_argument('adj-high',
+                                   'Adjust Highlights',
+                                   'Adjust Highlight Level',
                                    10, 100, 100, GObject.ParamFlags.READWRITE)
+        procedure.add_int_argument('adj-shadow',
+                                   'Adjust Shadows',
+                                   'Adjust Shadows Level',
+                                   0, 90, 0, GObject.ParamFlags.READWRITE)
         procedure.add_boolean_argument('is-black-white',
                                        'Black and White',
                                        'Desaturate the image',
@@ -68,7 +72,7 @@ class FilmNegative (Gimp.PlugIn):
             GimpUi.init('film-negative')
             dialog = GimpUi.ProcedureDialog(procedure=procedure, config=config)
             # args to be displayed
-            dialog.fill(['adj-exposure', 'is-black-white', 'is-slide'])
+            dialog.fill(['adj-high', 'adj-shadow', 'is-black-white', 'is-slide'])
 
             is_ok = dialog.run()
             if not is_ok:
@@ -76,11 +80,11 @@ class FilmNegative (Gimp.PlugIn):
                 return procedure.new_return_values(Gimp.PDBStatusType.CANCEL, GLib.Error())
 
         #Gimp.message('Starting')
-        adjExposure = config.get_property('adj-exposure')
+        adjHigh = config.get_property('adj-high')
+        adjShad = config.get_property('adj-shadow')
         isBlackWhite = config.get_property('is-black-white')
         isSlide = config.get_property('is-slide')
 
-        #Gimp.message('BW {}'.format(isBlackWhite))
         if isBlackWhite:
             ok = drawable.desaturate(Gimp.DesaturateMode.LUMINANCE)
             if not ok:
@@ -103,9 +107,8 @@ class FilmNegative (Gimp.PlugIn):
             return procedure.new_return_values(Gimp.PDBStatusType.GIMP_PDB_EXECUTION_ERROR, error)
 
         # Exposure Adjustment
-        #Gimp.message('Adj {}'.format(adjExposure))
-        if adjExposure != 100:
-            ok = drawable.levels(Gimp.HistogramChannel.VALUE, 0.0, adjExposure / 100, False, 1.0, 0.0, 1.0, False)
+        if adjHigh != 100 or adjShad != 0:
+            ok = drawable.levels(Gimp.HistogramChannel.VALUE, adjShad / 100, 1.0, False, 1.0, 0.0, adjHigh / 100, False)
             if not ok:
                 msg = _('Exposure failed')
                 error = GLib.Error.new_literal(Gimp.PlugIn.error_quark(), msg, 0)

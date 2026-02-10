@@ -1,6 +1,7 @@
-(define (script-fu-film-negative inImage inLayer autoExpose isBW isSlide)
-  (gimp-message-set-handler CONSOLE)
-  (gimp-selection-all inImage)
+(define (script-fu-film-processor inImage inLayer highlights shadows isBW isSlide)
+  ;(gimp-message-set-handler CONSOLE)
+  ;(gimp-message (string-append "highlights " (number->string highlights)))
+
   (if (= isBW TRUE)
     (gimp-drawable-desaturate inLayer DESATURATE-LUMINANCE)
   )
@@ -8,38 +9,23 @@
       (gimp-drawable-invert inLayer FALSE)
   )
   (gimp-drawable-levels-stretch inLayer)
-  ; apply expose adjustment
-  ;(gimp-message (number->string autoExpose))
-  (if (not (= autoExpose 100))
-      (let* ((expose (/ autoExpose 100)))
-          (gimp-drawable-levels inLayer HISTOGRAM-VALUE 0.0 expose FALSE 1.0 0.0 1.0 FALSE)
+
+  ; optionally apply levels adjustment
+  (if (or (not (= highlights 100)) (not (= shadows 0)))
+      (let* (
+             (h (/ highlights 100))
+             (s (/ shadows 100))
+             )
+            ; drawable channel low-input high-input clamp-input gamma low-output high-output clamp-output
+            (gimp-drawable-levels inLayer HISTOGRAM-VALUE s 1.0 FALSE 1.0 0.0 h FALSE)
       )
   )
   ; show the results
   (gimp-displays-flush inImage)
-
-  (let* (
-          ; filename is a list - car gets the first element
-          (filename (car(gimp-image-get-filename inImage)))
-          (exportfile (morph-filename filename "jpg"))
-      )
-
-    ;(gimp-message exportfile)
-    (file-jpeg-save RUN-INTERACTIVE inImage inLayer exportfile exportfile 0.95 0.0 1 1 "GIMP" 2 1 0 0)
-  )
 )
 
-(define (morph-filename orig-name new-ext)
-  (let* ((buffer (vector "" "" "")))
-    (if (re-match "^(.*)[.]([^.]+)$" orig-name buffer)
-      (string-append (substring orig-name 0 (car (vector-ref buffer 2))) new-ext)
-      )
-    )
-  )
-
-
 (script-fu-register
-  "script-fu-film-negative"
+  "script-fu-film-processor"
   "Film Processor"
   "Automatically adjusts colour sensitivity and invert"
   "SteveWW"
@@ -48,12 +34,13 @@
   "*"
   SF-IMAGE "The Image" 0
   SF-DRAWABLE "The Layer" 0
-  SF-ADJUSTMENT "Exposure Adjustment" '(100 10 100 5 10 0 SF-SLIDER)
+  SF-ADJUSTMENT "Highlights Adjustment" '(100 10 100 5 10 0 SF-SLIDER)
+  SF-ADJUSTMENT "Shadows Adjustment" '(0 0 90 5 10 0 SF-SLIDER)
   SF-TOGGLE "Black & White" FALSE
   SF-TOGGLE "Slide" FALSE
 )
 
 (script-fu-menu-register
-  "script-fu-film-negative"
+  "script-fu-film-processor"
   "<Image>/Colors"
 )
