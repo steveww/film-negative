@@ -5,30 +5,13 @@ set -e
 
 clear
 
-read -p "Gimp Version <2/3>? " ANS
-
-case $ANS in
-    2)
-        VERSION="2.10"
-        DIR="scripts"
-        ;;
-    3)
-        VERSION="3.0"
-        DIR="plug-ins"
-        ;;
-    *)
-        echo "Wrong version"
-        echo "Bye"
-        exit 1
-        ;;
-esac
-
+VERSION="3.0"
 case $(uname) in
     Darwin)
-        DESTINATION="$HOME/Library/Application Support/GIMP/$VERSION/$DIR"
+        DESTINATION="$HOME/Library/Application Support/GIMP/$VERSION"
         ;;
     Linux)
-        DESTINATION="$HOME/.config/GIMP/$VERSION/$DIR"
+        DESTINATION="$HOME/.config/GIMP/$VERSION"
         ;;
     *)
         echo "Unknown system"
@@ -37,34 +20,19 @@ case $(uname) in
         ;;
 esac
 
-if [ "$VERSION" = "2.10" ]
+# copy script-fu
+echo "Copy script-fu"
+cp *.scm $DESTINATION/scripts
+
+DIR="$DESTINATION/plug-ins/dual-save"
+if [ ! -d $DIR ]
 then
-    echo "$DESTINATION"
-    read -p "Copy <y/n>? " ANS
-    if [ "$ANS" = "y" ]
-    then
-        cp *.scm "$DESTINATION"
-    fi
+    echo "Create plugin directory"
+    mkdir $DIR
 fi
 
-if [ "$VERSION" = "3.0" ]
-then
-    echo "$DESTINATION"
-    read -p "Copy <y/n>? " ANS
-    if [ "$ANS" = "y" ]
-    then
-        for SCRIPT in *.py
-        do
-            DIR="$(basename $SCRIPT .py)"
-            if [ ! -d "$DESTINATION/$DIR" ]
-            then
-                echo "Creating $DESTINATION/$DIR"
-                mkdir "$DESTINATION/$DIR"
-            fi
+echo "Copy Python plugin"
+cp dual-save.py $DIR
 
-            cp $SCRIPT $DESTINATION/$DIR
-        done
-    fi
-
-fi
+echo "Finished"
 
