@@ -18,8 +18,12 @@
             (gimp-drawable-levels inLayer HISTOGRAM-VALUE 0.0 1.0 FALSE g 0.0 1.0 FALSE)
       )
   )
+
+  ; May be change the colour profile to sRGB
+  ; gimp-directory is set to ~/.config/GIMP/3.0
+
   ; show the results
-  (gimp-displays-flush inImage)
+  (gimp-displays-flush)
 )
 
 (script-fu-register

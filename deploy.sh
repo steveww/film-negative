@@ -21,18 +21,24 @@ case $(uname) in
 esac
 
 # copy script-fu
+DIR="$DESTINATION/scripts"
+if [ ! -d "$DIR" ]
+then
+    echo "Create scripts dir"
+    mkdir "$DIR"
+fi
 echo "Copy script-fu"
-cp *.scm $DESTINATION/scripts
+cp *.scm "$DIR"
 
 DIR="$DESTINATION/plug-ins/dual-save"
-if [ ! -d $DIR ]
+if [ ! -d "$DIR" ]
 then
     echo "Create plugin directory"
-    mkdir $DIR
+    mkdir "$DIR"
 fi
 
 echo "Copy Python plugin"
-cp dual-save.py $DIR
+cp dual-save.py "$DIR"
 
 echo "Finished"
 

@@ -59,6 +59,9 @@ class DualSave (Gimp.PlugIn):
         xcf_file = Gio.File.new_for_path(path + '.xcf')
         jpg_file = Gio.File.new_for_path(path + '.jpg')
 
+        # clear any selection
+        Gimp.Selection.none(image)
+
         Gimp.message('Saving XCF')
         pdb = Gimp.get_pdb()
         pdb_proc = pdb.lookup_procedure('gimp-xcf-save')
