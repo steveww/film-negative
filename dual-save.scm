@@ -1,5 +1,3 @@
-#!/usr/bin/env gimp-script-fu-interpreter-3.0
-
 (define (script-fu-dual-save inImage inLayer quality)
     (let* (
           (filename (car (gimp-image-get-file inImage)))

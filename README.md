@@ -1,4 +1,7 @@
 # Film Negative
+
+Currently V2 scripts which will run with GIMP 3.0.
+
 GIMP script to help processing colour or B&W film negatives and slides.
 
 This script pulls together a few steps to process a scan of a colour, slide or B&W film.
@@ -18,7 +21,9 @@ There is an install script for Mac and Linux systems `deploy.sh`.
 The script will appear as the menu option Colours -> Film Processor in the GIMP main menu.
 When activated it gives you three options:
 
-**Exposure Adjustment** Will adjust the exposure. 100 = no adjustment. Less than 100 will darken. Greater than 100 will lighten.
+**Mid Adjustment** Will adjust the mid tones. 0 = no adjustment. Less than 0 will darken. Greater than 0 will lighten.
+
+**Contrast Adjustment** Will adjust the contrast. 0 = no adjustment. Less than 0 will reduce contrast. Greater than 0 will increase contrast.
 
 **Balck & White** Will convert the image to black and white (desaturate) before performing any other modifications. This is a must for black and white scans and optional for colour scans if you want to convert to black and white.
 

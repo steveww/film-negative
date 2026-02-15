@@ -1,5 +1,3 @@
-#!/usr/bin/env gimp-script-fu-interpreter-3.0
-
 (define (script-fu-film-processor inImage inLayer gamma contrast isBW isSlide)
   ;(gimp-message-set-handler CONSOLE)
   ;(gimp-message (string-append "gamma " (number->string gamma)))
