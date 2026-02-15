@@ -30,15 +30,5 @@ fi
 echo "Copy script-fu"
 cp *.scm "$DIR"
 
-DIR="$DESTINATION/plug-ins/dual-save"
-if [ ! -d "$DIR" ]
-then
-    echo "Create plugin directory"
-    mkdir "$DIR"
-fi
-
-echo "Copy Python plugin"
-cp dual-save.py "$DIR"
-
 echo "Finished"
 

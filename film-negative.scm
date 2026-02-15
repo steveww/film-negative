@@ -1,3 +1,5 @@
+#!/usr/bin/env gimp-script-fu-interpreter-3.0
+
 (define (script-fu-film-processor inImage inLayer gamma contrast isBW isSlide)
   ;(gimp-message-set-handler CONSOLE)
   ;(gimp-message (string-append "gamma " (number->string gamma)))
@@ -57,8 +59,8 @@
   "SteveWW (c) 2025"
   "1 September 2025"
   "*"
-  SF-IMAGE "The Image" 0
-  SF-DRAWABLE "The Layer" 0
+  SF-IMAGE "image" 0
+  SF-DRAWABLE "drawable" 0
   SF-ADJUSTMENT "Mid Adjustment"
       (list 0 ;value
             -50  ;lower
