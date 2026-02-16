@@ -1,10 +1,17 @@
 (define (script-fu-dual-save inImage inLayer quality)
+    ;; quit when there is not a file i.e. new image
+    (when (string=? (car (gimp-image-get-name inImage)) "[Untitled]")
+      (gimp-message "No file for image")
+      (quit 2)
+    )
     (let* (
           (filename (car (gimp-image-get-file inImage)))
           (exportfile (morph-filename filename "jpg"))
           (savefile (morph-filename filename "xcf"))
           (q (/ quality 100))
           )
+
+          (gimp-selection-none inImage)
 
           ;(gimp-message filename)
           ;(gimp-message exportfile)
