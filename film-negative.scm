@@ -61,8 +61,8 @@
   SF-DRAWABLE "drawable" 0
   SF-ADJUSTMENT "Mid Adjustment"
       (list 0 ;value
-            -50  ;lower
-            50 ;upper
+            -80  ;lower
+            80 ;upper
             5   ;step inc
             10  ;page inc
             0   ;digits
